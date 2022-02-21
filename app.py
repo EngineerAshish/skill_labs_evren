@@ -12,11 +12,16 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("database_uri")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.config['SQLALCHEMY_ECHO']=True
 
-# @app.route("/", methods = ["GET"])
-# def home():
-#     return jsonify("hello world")
+from flask_cors import CORS
 
-# we can create the db and tables using sql alchemy 
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+# import blueprints
+from routes.user_blueprint import user_page
+
+# register blueprints
+app.register_blueprint(user_page)
 
 @app.before_first_request
 def create_table():
