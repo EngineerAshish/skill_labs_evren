@@ -1,12 +1,12 @@
 from datetime import datetime
-from db import db
+from ..db import db
 
 
-class User:
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    phone_nmber = db.Column(db.String(100), nullable=False)
+    phone_number = db.Column(db.String(100), nullable=False)
     category = db.Column(db.Integer, nullable=False)
     active = db.Column(db.Integer, nullable=False)
     profile_image = db.Column(db.String(100), nullable=False)

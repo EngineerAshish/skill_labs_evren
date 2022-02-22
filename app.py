@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from database.db import db
+from flask_mail import Mail
 
 import os
 
@@ -11,6 +12,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("database_uri")
 # turns off the flask sqlalchemy tracker ,as sqlalchemy modification tracker is better
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.config['SQLALCHEMY_ECHO']=True
+
+# mail config
+# configuration of mail
+app.config['MAIL_SERVER']='smtp.office365.com'
+app.config['MAIL_PORT'] = 587 
+app.config['MAIL_USERNAME'] = os.environ.get("EMAIL")
+app.config['MAIL_PASSWORD'] = os.environ.get("PASSWORD")
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_DEBUG'] = True 
+mail= Mail()
+
 
 from flask_cors import CORS
 
@@ -29,4 +42,5 @@ def create_table():
 
 if __name__ == "__main__":
     db.init_app(app)
+    mail.init_app(app)
     app.run(port=os.environ.get("BACKEND_PORT"),debug=True)
