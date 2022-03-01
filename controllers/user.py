@@ -13,6 +13,7 @@ from schema.user_registration import schema as register_schema
 from schema.OTP_login import schema as otp_schema
 
 from database.models.User import User
+from database.models.Student import Student
 
 from utils.config import User as user_variable
 
@@ -27,14 +28,30 @@ def post_user(data):
 
         v = Validator(register_schema)
 
-        if not v.validate(data):
-            return response_obj.send_respose(400, {}, 'unSuccessful signUp','schema validation failed')
+        # if not v.validate(data):
+        #     return response_obj.send_respose(400, {}, 'unSuccessful signUp','schema validation failed')
         
-        data["category"] = user_variable.student
-        data["active"] = user_variable.inactive
 
-        post_user = User(**data)
+        if data["category"] == user_variable.student:
+            data["category"] = user_variable.student
+            post_student = Student()
+            post_student.college = data["college"]
+            post_student.location = data["location"]
+            post_student.highest_qualification = data["highest_qualification"]
+            post_student.type = 1
+            post_student.email = data["email"]
+        
+        new_user = {
+            "name":data["name"],
+            "email":data["email"],
+            "phone_number":data["phone_number"],
+            "profile_image":data["profile_image"],
+            "active":user_variable.inactive,
+            "category":data["category"]
+        }
+        post_user = User(**new_user)
         post_user.save_user()
+        post_student.save_profile()
         return response_obj.send_respose(200, data, 'successful signUp','')
     except Exception as e:
         print(e)

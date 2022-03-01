@@ -14,6 +14,10 @@ cors.init_app(user_page, resources={r"/*": {"origins": "*", "supports_credential
 def user_signIn():
     return post_user(request.json)
 
+@user_page.route("/api/users/hello", methods=["GET"])
+def hello_user():
+    return "hello"
+
 @user_page.route("/api/users/send_otp", methods=["Post"])
 def send_otp_signIn():
     return send_otp({"email":request.args.get("email"), "user":request.args.get("user")})
