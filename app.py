@@ -45,4 +45,4 @@ def create_table():
 if __name__ == "__main__":
     db.init_app(app)
     mail.init_app(app)
-    app.run(port=os.environ.get("BACKEND_PORT"),debug=True)
+    app.run(host=os.environ.get("BACKEND_HOST"),port=os.environ.get("BACKEND_PORT"),debug=True)

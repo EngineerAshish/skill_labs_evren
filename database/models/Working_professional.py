@@ -1,20 +1,24 @@
 from datetime import datetime
-
-from sqlalchemy import true
 from ..db import db
 
 
-class User(db.Model):
+class Working_professional(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False, unique=true)
-    phone_number = db.Column(db.String(100), nullable=False)
-    category = db.Column(db.Integer, nullable=False)
-    active = db.Column(db.Integer, nullable=False)
-    profile_image = db.Column(db.String(100), nullable=False)
+    type = db.Column(db.Integer)
+    designation = db.Column(db.String(100))
+    location = db.Column(db.String(100))
+    organisation = db.Column(db.String(100))
+    user_id = db.Column(db.Integer) 
+    email = db.Column(db.String(100), unique=True)
+    UG_degree = db.Column(db.String(100))
+    PG_degree = db.Column(db.String(100))
+    current_company = db.Column(db.String(100))
+    intrested_area = db.Column(db.String(100))
+    working_experience = db.Column(db.Integer)
     created_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False)
     updated_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False,onupdate=datetime.utcnow())
     
+
 
     def json(self):
         self_dict = self.__dict__

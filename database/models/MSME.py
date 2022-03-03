@@ -1,19 +1,17 @@
 from datetime import datetime
-
-from sqlalchemy import true
 from ..db import db
 
 
-class User(db.Model):
+class MSME(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), nullable=False, unique=true)
-    phone_number = db.Column(db.String(100), nullable=False)
-    category = db.Column(db.Integer, nullable=False)
-    active = db.Column(db.Integer, nullable=False)
-    profile_image = db.Column(db.String(100), nullable=False)
-    created_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False)
-    updated_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False,onupdate=datetime.utcnow())
+    # name = db.Column(db.String(100), nullable=False)
+    # email = db.Column(db.String(100), nullable=False)
+    # phone_number = db.Column(db.String(100), nullable=False)
+    # category = db.Column(db.Integer, nullable=False)
+    # active = db.Column(db.Integer, nullable=False)
+    # profile_image = db.Column(db.String(100), nullable=False)
+    # created_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False)
+    # updated_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False,onupdate=datetime.utcnow())
     
 
     def json(self):
