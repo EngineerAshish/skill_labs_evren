@@ -83,37 +83,35 @@ def post_user(data):
         
 def send_otp(data):
     try:
-        if data["user"] == "student":
-            student = User.get_user_by_email(data["email"])
-            if not student:
-                return response_obj.send_respose(404, {}, 'user not found','please check the email')
+        user = User.get_user_by_email(data["email"])
+        if not user:
+            return response_obj.send_respose(404, {}, 'user not found','please check the email')
 
-                    # delete already existing otps
-            Otp.delete_many(student.email)
+                # delete already existing otps
+        Otp.delete_many(user.email)
 
-            # generate 5 digit random number
-            generate_otp =  Otp.create_otp()
+        # generate 5 digit random number
+        generate_otp =  Otp.create_otp()
 
-            # creating otp validate time (5 min = 300 sec)
-            validity = Otp.create_validity()
+        # creating otp validate time (5 min = 300 sec)
+        validity = Otp.create_validity()
 
-            # create Otp object and save it to db
-            otp = Otp(user_id=student.id,email = student.email, OTP=generate_otp,valid_till=validity)
+        # create Otp object and save it to db
+        otp = Otp(user_id=user.id,email = user.email, OTP=generate_otp,valid_till=validity)
 
-            otp.save_otp()    
+        otp.save_otp()    
 
-            msg = Message(
-            f'Skill Lab Email Verefication',
-            sender =os.environ.get("EMAIL"),
-            recipients = [student.email]
-            )
-            msg.body = f'Hello your otp is {generate_otp}'
-            mail.send(msg)
+        msg = Message(
+        f'Skill Lab Email Verefication',
+        sender =os.environ.get("EMAIL"),
+        recipients = [user.email]
+        )
+        msg.body = f'Hello your otp is {generate_otp}'
+        mail.send(msg)
 
-            return response_obj.send_respose(200, {"email": student.email}, 'successful otp sent','')
+        return response_obj.send_respose(200, {"email": user.email}, 'successful otp sent','')
     except:
-        return response_obj.send_respose(500, {"email": student.email}, 'unSuccessful otp sent','internal server error')
-    return response_obj.send_respose(500, {}, 'unSuccessful signUp','internal server error')
+        return response_obj.send_respose(500, {"email": user.email}, 'unSuccessful otp sent','internal server error')
 
 # create and save otp
 def save_otp(user:User):

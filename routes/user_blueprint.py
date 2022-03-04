@@ -20,7 +20,7 @@ def hello_user():
 
 @user_page.route("/api/users/send_otp", methods=["Post"])
 def send_otp_signIn():
-    return send_otp({"email":request.args.get("email"), "user":request.args.get("user")})
+    return send_otp({"email":request.args.get("email")})
 
 @user_page.route("/api/users/login", methods=["post"])
 def login_user():
