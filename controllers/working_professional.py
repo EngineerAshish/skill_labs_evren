@@ -4,6 +4,8 @@ from utils.utils import Response
 def create_working_professional_profile(data):
     try:
         working_professional = Working_professional.get_user_by_email(data["email"])
+        if not working_professional:
+            return Response.send_respose(404, {}, 'user is not a working professional', 'not found') 
         working_professional.PG_degree = data["PG_degree"]
         working_professional.UG_degree = data["UG_degree"]
         working_professional.current_company = data["current_company"]
@@ -20,6 +22,9 @@ def create_working_professional_profile(data):
 def get_profile(email):
     try:
         working_professional = Working_professional.get_user_by_email(email)
+        if not working_professional:
+            return Response.send_respose(404, {}, 'user is not a working professional', 'not found')   
+
         return Response.send_respose(200, working_professional.json(), 'profile', '')
     except Exception as e:
         print(e)

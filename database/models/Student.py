@@ -27,7 +27,19 @@ class Student(db.Model):
 
     def json(self):
         self_dict = self.__dict__
-        user_dict = {x:self_dict[x] for x in self_dict.keys() if not x.startswith("_") and x!="enc_password"}
+        user_dict = {}
+        total_keys = 0
+        total_set_keys = 0
+        for x in self_dict.keys():
+            if not x.startswith("_") and x!="enc_password":
+                user_dict[x] = self_dict[x]
+                total_keys+=1
+                # check if the key is set
+                if self_dict[x]:
+                    total_set_keys +=1
+        total_set_keys = total_set_keys/total_keys *100
+        user_dict["profile_completed"] = total_set_keys
+        # user_dict = {x:self_dict[x] for x in self_dict.keys() if not x.startswith("_") and x!="enc_password"}
         return (user_dict)
 
 
@@ -38,6 +50,7 @@ class Student(db.Model):
     @classmethod
     def get_profile_by_email(cls,email):
         return cls.query.filter_by(email=email).first()
+
 
     @classmethod
     def get_profile_by_id(cls,id):

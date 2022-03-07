@@ -16,6 +16,9 @@ def create_student_profile(data):
         #     print(v.errors)
         #     return Response.send_respose(401, {}, 'unsuccessful post', 'schema validation failed')
         get_profile = Student.get_profile_by_email(data["email"])
+        if not get_profile:
+            return Response.send_respose(404, {}, 'user is not a student', 'not found')  
+        get_profile.user_id = data["user_id"]
         get_profile.tenth_name = data["tenth_name"]
         get_profile.tenth_marks = data["tenth_marks"]
         get_profile.twelfth_name = data["twelfth_name"]
@@ -29,7 +32,7 @@ def create_student_profile(data):
         get_profile.intrested_areas = data["intrested_areas"]
 
         get_profile.save_profile()
-        return Response.send_respose(200,get_profile.json(), 'successful post', '')
+        return Response.send_respose(200,data, 'successful post', '')
 
     except Exception as e:
         print(e)
@@ -38,6 +41,8 @@ def create_student_profile(data):
 def get_Student_profile(email):
     try:
         get_student = Student.get_profile_by_email(email)
+        if not get_student:
+            return Response.send_respose(404, {}, 'user is not a student', 'not found')  
         return Response.send_respose(200, get_student.json(),'', '' )
     except Exception as e:
         print(e)

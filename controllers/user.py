@@ -106,6 +106,7 @@ def send_otp(data):
 
         # generate 5 digit random number
         generate_otp =  Otp.create_otp()
+        print(f"otp {generate_otp}")
 
         # creating otp validate time (5 min = 300 sec)
         validity = Otp.create_validity()
