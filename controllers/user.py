@@ -16,6 +16,7 @@ from schema.OTP_login import schema as otp_schema
 from database.models.User import User
 from database.models.Student import Student
 from database.models.Working_professional import Working_professional
+from database.models.MSME import MSME
 
 from utils.config import User as user_variable
 
@@ -71,6 +72,19 @@ def post_user(data):
             post_working_experience.location = data["location"]
             post_working_experience.current_company = data["current_company"]
             post_working_experience.save_user()
+
+        if data["category"] == user_variable.MSME_user:
+            print("inside msme")
+            if data["type"]!=1 and data["type"]!=2:
+                return response_obj.send_respose(400, {}, 'unSuccessful signUp','user type has to be either mentor or other services')
+            post_MSME = MSME()
+
+            post_MSME.email = data["email"]
+            post_MSME.business_category = data["business_category"]
+            post_MSME.business_type = data["business_type"]
+            post_MSME.location = data["location"]
+            post_MSME.type = data["type"]
+            post_MSME.save_user()
 
         
         post_user.save_user()
