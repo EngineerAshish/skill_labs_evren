@@ -34,11 +34,13 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 from routes.user_blueprint import user_page
 from routes.student_blueprint import student_page
 from routes.working_professional_blueprint import working_professional_page
+from routes.MSME_blueprint import MSME_page
 
 # register blueprints
 app.register_blueprint(user_page)
 app.register_blueprint(student_page)
 app.register_blueprint(working_professional_page)
+app.register_blueprint(MSME_page)
 
 @app.before_first_request
 def create_table():

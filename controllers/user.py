@@ -152,7 +152,7 @@ def login(data):
             if safe_str_cmp("1111",data["OTP"]) and safe_str_cmp("sameervashisht39@gmail.com",data["email"]):
                 get_user = User.get_user_by_email(data["email"])
                 token = create_user_token(get_user)
-                return response_obj.send_respose(200,{"access_token":token, "role": who_login(get_user.category)},'Successful verification','')
+                return response_obj.send_respose(200,{"access_token":token, "role": who_login(get_user.category), "profile_completed":profile_complete({"email":get_user.email, "type":get_user.category})},'Successful verification','')
 
             otp = Otp.get_by_email(data["email"])
             # check if there is a otp in db associated with email
@@ -169,7 +169,7 @@ def login(data):
                 get_user = User.get_user_by_email(data["email"])
                 token = create_user_token(get_user)
                 otp.delete_otp()
-                return response_obj.send_respose(200,{"access_token":token ,"role": who_login(get_user.category)},'Successful verification','')
+                return response_obj.send_respose(200,{"access_token":token ,"role": who_login(get_user.category),"profile_completed":profile_complete({"email":get_user.email, "type":get_user.category})},'Successful verification','')
 
             else:
                 return response_obj.send_respose(200,{},'unSuccessful verification','no OTP found')
@@ -183,3 +183,20 @@ def who_login(type):
         return "student"
     if type == user_variable.working_professional:
         return "working professional"
+    if type == user_variable.MSME_user:
+        return "MSME"
+
+# how much profile is completed
+def profile_complete(data):
+    if data["type"] == user_variable.student:
+        current_user = Student.get_profile_by_email(data["email"])
+        current_user_json = current_user.json()
+        return current_user_json["profile_completed"]
+    if data["type"] == user_variable.working_professional:
+        current_user = Working_professional.get_user_by_email(data["email"])
+        current_user_json = current_user.json()
+        return current_user_json["profile_completed"]
+    if data["type"] == user_variable.MSME_user:
+        current_user = MSME.get_user_by_email(data["email"])
+        current_user_json = current_user.json()
+        return current_user_json["profile_completed"]
