@@ -20,6 +20,7 @@ class MSME(db.Model):
     upload_docs= db.Column(db.String(100))
     intrested_areas= db.Column(db.String(100))
     location = db.Column(db.String(100))
+    turnover = db.Column(db.String(100))
     created_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False)
     updated_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False,onupdate=datetime.utcnow())
     
@@ -58,3 +59,9 @@ class MSME(db.Model):
     def delete_user(cls,id):
         cls.query.filter_by(id=id).delete()
         db.session.commit()
+
+    @classmethod
+    def get_profile_status(cls,email):
+        current_user = cls.get_user_by_email(email)
+        current_user_json = current_user.json()
+        return current_user_json["profile_completed"]

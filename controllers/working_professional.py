@@ -14,18 +14,18 @@ def create_working_professional_profile(data):
         working_professional.organisation = data["organisation"]
         working_professional.user_id= data["user_id"]
         working_professional.save_user()
-        return Response.send_respose(200, working_professional.json(), 'profile created', '')
+        return Response.send_respose(200, data, 'profile created', '')
     except Exception as e:
         print(e)
         return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')
 
-def get_profile(email):
+def get_profile(user):
     try:
-        working_professional = Working_professional.get_user_by_email(email)
+        working_professional = Working_professional.get_user_by_email(user.email)
         if not working_professional:
             return Response.send_respose(404, {}, 'user is not a working professional', 'not found')   
 
-        return Response.send_respose(200, working_professional.json(), 'profile', '')
+        return Response.send_respose(200, {"working_professional_profile":working_professional.json(), "user_data":user.json()}, 'profile', '')
     except Exception as e:
         print(e)
         return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')   

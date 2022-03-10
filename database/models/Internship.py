@@ -1,26 +1,18 @@
 from datetime import datetime
 from ..db import db
 
-class Student(db.Model):
+class Internship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.Integer)
-    user_id = db.Column(db.Integer)
+    MSME_id = db.Column(db.String(100), unique=True)
     email = db.Column(db.String(100), unique=True)
-    college = db.Column(db.String(100))
-    location = db.Column(db.String(100))
-    highest_qualification = db.Column(db.String(100))
-    # category = db.Column(db.Integer)  
-    tenth_marks = db.Column(db.DECIMAL(19, 4))
-    tenth_name = db.Column(db.String(100))
-    twelfth_marks = db.Column(db.DECIMAL(19, 4))
-    twelfth_name = db.Column(db.String(100))
-    UG_marks = db.Column(db.DECIMAL(19, 4))
-    UG_degree = db.Column(db.String(100))
-    UG_institution_name = db.Column(db.String(100))
-    PG_marks = db.Column(db.DECIMAL(19, 4))
-    PG_degree = db.Column(db.String(100))
-    PG_institution_name = db.Column(db.String(100))
-    intrested_areas = db.Column(db.String(100))
+    number_of_interns = db.Column(db.Integer)
+    MSME_name = db.Column(db.String(100), unique=True)
+    stipend = db.Column(db.DECIMAL(19, 4))
+    requirements = db.Column(db.String(100))
+    time_period = db.Column(db.DECIMAL(19, 4))
+    status = db.Column(db.Integer)
+    perks = db.Column(db.String(100))
+    position = db.Column(db.String(100))
     created_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False)
     updated_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False,onupdate=datetime.utcnow())
     

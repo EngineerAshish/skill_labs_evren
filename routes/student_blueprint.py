@@ -20,4 +20,4 @@ def user_signIn(user):
 @student_page.route("/api/student/get_profile", methods=["GET"])
 @token_required
 def get_profile(user):
-    return get_Student_profile(user.email)
+    return get_Student_profile(user)

@@ -54,3 +54,9 @@ class Working_professional(db.Model):
     def delete_user(cls,id):
         cls.query.filter_by(id=id).delete()
         db.session.commit()
+
+    @classmethod
+    def get_profile_status(cls,email):
+        current_user = cls.get_user_by_email(email)
+        current_user_json = current_user.json()
+        return current_user_json["profile_completed"]

@@ -189,14 +189,9 @@ def who_login(type):
 # how much profile is completed
 def profile_complete(data):
     if data["type"] == user_variable.student:
-        current_user = Student.get_profile_by_email(data["email"])
-        current_user_json = current_user.json()
-        return current_user_json["profile_completed"]
+        return Student.get_profile_status(data["email"])
     if data["type"] == user_variable.working_professional:
-        current_user = Working_professional.get_user_by_email(data["email"])
-        current_user_json = current_user.json()
-        return current_user_json["profile_completed"]
+        return Working_professional.get_profile_status(data["email"])
     if data["type"] == user_variable.MSME_user:
-        current_user = MSME.get_user_by_email(data["email"])
-        current_user_json = current_user.json()
-        return current_user_json["profile_completed"]
+        return MSME.get_profile_status(data["email"])
+        

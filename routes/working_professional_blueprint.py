@@ -18,5 +18,5 @@ def create_profile(user):
 @working_professional_page.route('/api/working_professional/get_profile', methods=["GET"])
 @token_required
 def get_profile(user):
-    return working_professional.get_profile(user.email)
+    return working_professional.get_profile(user)
 
