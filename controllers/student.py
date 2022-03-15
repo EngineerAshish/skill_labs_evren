@@ -43,7 +43,7 @@ def get_Student_profile(user):
         get_student = Student.get_profile_by_email(user.email)
         if not get_student:
             return Response.send_respose(404, {}, 'user is not a student', 'not found')  
-        return Response.send_respose(200, {"student_data":get_student.json(), "user_data":user.json()},'', '' )
+        return Response.send_respose(200, {"profile_data":get_student.json(), "user_data":user.json()},'', '' )
     except Exception as e:
         print(e)
         return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')

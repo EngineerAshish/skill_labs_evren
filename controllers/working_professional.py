@@ -25,7 +25,7 @@ def get_profile(user):
         if not working_professional:
             return Response.send_respose(404, {}, 'user is not a working professional', 'not found')   
 
-        return Response.send_respose(200, {"working_professional_profile":working_professional.json(), "user_data":user.json()}, 'profile', '')
+        return Response.send_respose(200, {"profile_data":working_professional.json(), "user_data":user.json()}, 'profile', '')
     except Exception as e:
         print(e)
         return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')   

@@ -39,7 +39,7 @@ def get_MSME_profile(user):
         get_MSME = MSME.get_user_by_email(user.email)
         if not get_MSME:
             return Response.send_respose(404, {}, 'user is not a MSME', 'not found')  
-        return Response.send_respose(200, {"MSME_profile":get_MSME.json(), "user_profile":user.json()}, '','')
+        return Response.send_respose(200, {"profile_data":get_MSME.json(), "user_profile":user.json()}, '','')
     except Exception as e:
         print(e)
         return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
