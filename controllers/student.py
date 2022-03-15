@@ -1,6 +1,11 @@
+from distutils.command.config import config
 from urllib import response
 from flask import jsonify
 from database.models.Student import Student
+from database.models.Mentornship import Mentornship
+from database.models.User import User as User_model
+from database.models.Working_professional import Working_professional
+from utils.config import User, abb
 from utils.utils import Response
 # from cerberus import Validator, errors
 # from schema.student_profile import schema as student_profile_schema
@@ -47,3 +52,41 @@ def get_Student_profile(user):
     except Exception as e:
         print(e)
         return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
+
+def get_mentors(page=1):
+    try:
+        print(f"page is {page}")
+        working_professionals = Working_professional.get_working_professionals(int(page))
+        return Response.send_respose(200, working_professionals, '', '')
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
+
+
+
+def add_mentor(data):
+    try:
+        working_professional = Working_professional.get_user_by_id(data["mentornship"]["mentor_id"])
+        if not working_professional:
+            return Response.send_respose(404, {}, 'user is not a working professional', 'not found') 
+
+        working_professional_user = User_model.get_user_by_email(working_professional.email)
+        if not working_professional:
+            return Response.send_respose(404, {}, 'no such mentor found', 'no such mentor found')
+        post_data = {
+            "student_id": data["user"].id,
+            "working_professional_id": working_professional.id,
+            "student_name":data["user"].name,
+            "student_email":data["user"].email,
+            "mentor_name": working_professional_user.name,
+            "mentor_email": working_professional.email,
+            "status":abb.mentornship.pending
+        }
+        mentornship = Mentornship(**post_data)
+        mentornship.save_profile()
+        return Response.send_respose(200, post_data, '', '')
+
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
+

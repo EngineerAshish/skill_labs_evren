@@ -28,6 +28,7 @@ response_obj = Response()
 
 def post_user(data):
     try:
+        # check if there is user with same email
         old_user = User.get_user_by_email(data["email"])
         if old_user:
             return response_obj.send_respose(400, {}, 'unSuccessful signUp','email has to be unique')
@@ -46,6 +47,7 @@ def post_user(data):
         post_user = User(**new_user)
 
         # current_user = User.get_user_by_email(data["email"])
+        # check if the user is a student
         if data["category"] == user_variable.student:
             if data["type"]!=1 and data["type"]!=2:
                 return response_obj.send_respose(400, {}, 'unSuccessful signUp','user type has to be either intern or other services')
@@ -59,7 +61,7 @@ def post_user(data):
             post_student.email = data["email"]
             post_student.save_profile()
 
-
+        # check the user is an woking professional
         if data["category"] == user_variable.working_professional:
             if data["type"]!=1 and data["type"]!=2:
                 return response_obj.send_respose(400, {}, 'unSuccessful signUp','user type has to be either mentor or other services')
@@ -73,6 +75,7 @@ def post_user(data):
             post_working_experience.current_company = data["current_company"]
             post_working_experience.save_user()
 
+# check if the user is a MSME
         if data["category"] == user_variable.MSME_user:
             print("inside msme")
             if data["type"]!=1 and data["type"]!=2:
@@ -116,6 +119,7 @@ def send_otp(data):
 
         otp.save_otp()    
 
+# send mail
         msg = Message(
         f'Skill Lab Email Verefication',
         sender =os.environ.get("EMAIL"),

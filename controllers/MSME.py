@@ -56,14 +56,14 @@ def create_internship(data):
             "MSME_id" : data["user"].id,
             "email" : data["user"].email,
             "MSME_name": MSME_profile.business_name,
-            "number_of_interns":data["internship"]["number_of_interns"],
+            "requirement_title":data["internship"]["requirement_title"],
             "MSME_name":MSME_profile.business_name,
-            "stipend":data["internship"]["stipend"],
-            "requirements":data["internship"]["requirements"],
-            "time_period":data["internship"]["time_period"],
-            "status":data["internship"]["status"],
-            "perks":data["internship"]["perks"],
-            "position":data["internship"]["position"],
+            "employment_type":data["internship"]["employment_type"],
+            "job_description":data["internship"]["job_description"],
+            "candidate_profile":data["internship"]["candidate_profile"],
+            "annual_ctc":data["internship"]["annual_ctc"],
+            "keywords":data["internship"]["keywords"],
+            "job_location":data["internship"]["job_location"],
         }
         print(post_data)
         internship = Internship(**post_data)

@@ -15,5 +15,11 @@ class User:
         other_professional_services =2
     
     class MSME:
-        map_an_intern = 1;
-        other_services= 2;
+        map_an_intern = 1
+        other_services= 2
+
+class abb:
+    class mentornship:
+        accepted=1
+        pending=2
+        rejected=3
