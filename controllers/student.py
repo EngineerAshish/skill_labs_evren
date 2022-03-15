@@ -67,6 +67,9 @@ def get_mentors(page=1):
 def add_mentor(data):
     try:
         working_professional = Working_professional.get_user_by_id(data["mentornship"]["mentor_id"])
+        if not working_professional:
+            return Response.send_respose(404, {}, 'user is not a working professional', 'not found') 
+
         working_professional_user = User_model.get_user_by_email(working_professional.email)
         if not working_professional:
             return Response.send_respose(404, {}, 'no such mentor found', 'no such mentor found')
