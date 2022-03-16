@@ -90,3 +90,14 @@ def add_mentor(data):
         print(e)
         return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
 
+def get_all_mentornship(data):
+    try:
+        get_mentornships = Mentornship.get_mentornships_by_student_email(data.email)
+        return Response.send_respose(200, get_mentornships, '', '')
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
+    
+
+        
+        

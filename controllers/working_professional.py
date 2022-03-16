@@ -1,5 +1,7 @@
 from database.models.Working_professional import Working_professional
+from database.models.Mentornship import Mentornship
 from utils.utils import Response
+from utils import config
 
 def create_working_professional_profile(data):
     try:
@@ -29,4 +31,26 @@ def get_profile(user):
     except Exception as e:
         print(e)
         return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')   
+
+def all_mentornship_request(user):
+    try:
+        mentornships = Mentornship.get_mentornships_by_mentor_email(user.email)
+        return Response.send_respose(200, mentornships, 'profile', '')
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')   
+
+
+def react_mentornship(data):
+    try:
+        get_mentornship = Mentornship.get_profile_by_id(data["mentornship_id"])
+        if not get_mentornship:
+            return Response.send_respose(404, {}, 'invalid mentornship id', 'not found') 
+        get_mentornship.status = config.abb.mentornship.accepted if data["status"]=="accept" else config.abb.mentornship.rejected
+        get_mentornship.save_profile()
+        return Response.send_respose(200, data, f"student was {data['status']}", '')
+
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')
  

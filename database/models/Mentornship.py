@@ -43,6 +43,27 @@ class Mentornship(db.Model):
     def get_profile_by_email(cls,email):
         return cls.query.filter_by(email=email).first()
 
+    @classmethod
+    def get_mentornships_by_mentor_email(cls,email):
+        mentornships_objs = cls.query.filter_by(mentor_email=email).all()
+        mentornships = []
+
+        for w in mentornships_objs:
+            mentornships.append(w.json())
+        
+        return mentornships
+
+
+    @classmethod
+    def get_mentornships_by_student_email(cls,email):
+        mentornships_objs = cls.query.filter_by(student_email=email).all()
+        mentornships = []
+
+        for w in mentornships_objs:
+            mentornships.append(w.json())
+        
+        return mentornships
+
 
     @classmethod
     def get_profile_by_id(cls,id):

@@ -15,8 +15,21 @@ def create_profile(user):
     request.json["user_id"] = user.id
     return working_professional.create_working_professional_profile(request.json)
 
+@working_professional_page.route('/api/working_professional/react_mentornship', methods=["POST"])
+@token_required
+def react_mentornship(user):
+    request.json["email"] = user.email
+    request.json["user_id"] = user.id
+    return working_professional.react_mentornship(request.json)
+
 @working_professional_page.route('/api/working_professional/get_profile', methods=["GET"])
 @token_required
 def get_profile(user):
     return working_professional.get_profile(user)
+
+@working_professional_page.route('/api/working_professional/all_mentornship_request', methods=["GET"])
+@token_required
+def get_mentornship_requests(user):
+    return working_professional.all_mentornship_request(user)
+
 
