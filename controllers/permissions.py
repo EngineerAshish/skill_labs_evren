@@ -1,51 +1,45 @@
 from database.models.User import User
-from database.models.permmissions import permissions
-from flask import Flask,redirect,url_for
+from database.models.permissions import permissions
 
-@app.route ('/noaccess')
-def noaccess():
-    return "you are not allowed to access the page"
+class permission(permissions):
+    def viewEStu():
+        if permissions.viewEStu == False:
+            return "You are not authorised "
+    def viewEMent():
+        if permissions.viewEMent == False:
+            return "You are not authorised "
+    def viewEMsme():
+        if permissions.viewEMsme == False:
+            return "You are not authorised "
+    def viewNortif():
+        if permissions.viewNortif == False:
+            return "You are not authorised "
+    def createNortif():
+        if permissions.createNortif == False:
+            return "You are not authorised "
+    def viewServices():
+        if permissions.viewServices == False:
+            return "You are not authorised "
+    def createServices():
+        if permissions.createServices == False:
+            return "You are not authorised "
+    def assignServices():
+        if permissions.assignServices == False:
+            return "You are not authorised "
+    def viewNewLeades():
+        if permissions.viewNewLeades == False:
+            return "You are not authorised "
+    def viewPendingLeades():
+        if permissions.viewPendingLeades == False:
+            return "You are not authorised "
+    def viewConvertedLeads():
+        if permissions.viewConvertedLeades == False:
+            return "You are not authorised "
+    def viewReports():
+        if permissions.viewReports == False:
+            return "You are not authorised "
 
-# user = permissions.get_user_by_id()  #how to get the user using it for global use
-
-def viewEStu():
-    if user.viewEStu == False:
-        return redirect(url_for('noaccess'))
-def viewEMent():
-    if user.viewEMent == False:
-        return redirect(url_for('noaccess'))
-def viewEMsme():
-    if user.viewEMsme == False:
-        return redirect(url_for('noaccess'))
-def viewNortif():
-    if user.viewNortif == False:
-        return redirect(url_for('noaccess'))
-def createNortif():
-    if user.createNortif == False:
-        return redirect(url_for('noaccess'))
-def viewServices():
-    if user.viewServices == False:
-        return redirect(url_for('noaccess'))
-def createServices():
-    if user.createServices == False:
-        return redirect(url_for('noaccess'))
-def assignServices():
-    if user.assignServices == False:
-        return redirect(url_for('noaccess'))
-def viewNewLeades():
-    if user.viewNewLeades == False:
-        return redirect(url_for('noaccess'))
-def viewPendingLeades():
-    if user.viewPendingLeades == False:
-        return redirect(url_for('noaccess'))
-def viewConvertedLeads():
-    if user.viewConvertedLeades == False:
-        return redirect(url_for('noaccess'))
-def viewReports():
-    if user.viewReports == False:
-        return redirect(url_for('noaccess'))
-
-def post_access_type(data):
-    user = User.get_user_by_id(data["id"])
+    def post_access_type(data):
+        User = permissions.get_user_by_id(data["id"])
     
 
