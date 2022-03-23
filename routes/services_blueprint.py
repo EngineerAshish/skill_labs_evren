@@ -23,7 +23,7 @@ def update_services():
 def delete_services():
     return delete_service()
 
-@services_page.route("/api/services/view_service/<int:service_id>",methods=["GET"])
+@services_page.route("/api/services/view_service/<service_id>",methods=["GET"])
 def view_services():
     return view_service(service_id)
 
