@@ -1,4 +1,3 @@
-from turtle import pen
 from database.models.leadmanagement import leadmanagement,new,assigned,pending,converted,rejected
 
 def create_lead (data):
@@ -12,6 +11,16 @@ def create_lead (data):
     leadmanagement.id=data["id"]
     leadmanagement.assigned_to=data["assigned_to"]
     leadmanagement.save_user()
+    new.category=data["category"]
+    new.name=data["name"]
+    new.sub_category=data["sub_category"]
+    new.email=data["email"]
+    new.phone_number=data["phone_number"]
+    new.service_name=data["service_name"]
+    new.status=data["status"]
+    new.id=data["id"]
+    new.assigned_to=data["assigned_to"]
+    new.save_user()
 
 
 def dropdown_decider(data):
