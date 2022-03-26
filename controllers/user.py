@@ -61,7 +61,7 @@ def post_user(data):
             post_student.email = data["email"]
             post_student.save_profile()
 
-        # check the user is an woking professional
+        # check the user is an woking professionals
         if data["category"] == user_variable.working_professional:
             if data["type"]!=1 and data["type"]!=2:
                 return response_obj.send_respose(400, {}, 'unSuccessful signUp','user type has to be either mentor or other services')

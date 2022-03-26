@@ -73,6 +73,10 @@ def add_mentor(data):
         working_professional_user = User_model.get_user_by_email(working_professional.email)
         if not working_professional:
             return Response.send_respose(404, {}, 'no such mentor found', 'no such mentor found')
+        already_request = Mentornship.get_if_already_requested(data["user"].id,working_professional.id)
+        
+        if already_request:
+            return Response.send_respose(404, {}, 'request already sent', 'duplicate request') 
         post_data = {
             "student_id": data["user"].id,
             "working_professional_id": working_professional.id,

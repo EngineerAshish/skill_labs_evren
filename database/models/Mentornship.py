@@ -44,6 +44,10 @@ class Mentornship(db.Model):
         return cls.query.filter_by(email=email).first()
 
     @classmethod
+    def get_if_already_requested(cls,student_id, working_professional_id):
+        return cls.query.filter_by(working_professional_id=working_professional_id, student_id=student_id).first()
+
+    @classmethod
     def get_mentornships_by_mentor_email(cls,email):
         mentornships_objs = cls.query.filter_by(mentor_email=email).all()
         mentornships = []
