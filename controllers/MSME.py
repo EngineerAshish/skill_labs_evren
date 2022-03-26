@@ -2,6 +2,8 @@ from webbrowser import get
 from utils.config import User
 from database.models.MSME import MSME
 from database.models.Internship import Internship
+from database.models.intern import Intern
+
 from utils.utils import Response
 
 def create_MSME_profile(data):
@@ -72,3 +74,19 @@ def create_internship(data):
     except Exception as e:
         print(e)
         return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
+
+def get_internships_created(user):
+    try:
+        Internships = Internship.get_profile_by_MSME_email(user.email);
+        return Response.send_respose(200, Internships, 'profile', '')
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')   
+
+def get_interns_applied(user):
+    try:
+        get_interns = Intern.get_profile_by_MSME_email(user.email)
+        return Response.send_respose(200, get_interns, 'profile', '')
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')   

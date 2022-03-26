@@ -1,25 +1,16 @@
 from datetime import datetime
 from ..db import db
 
-class Internship(db.Model):
+class Intern(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    MSME_id = db.Column(db.String(100), unique=True)
-    email = db.Column(db.String(100), unique=True)
-    requirement_title = db.Column(db.String(100))
-    employment_type = db.Column(db.String(100))
-    job_description = db.Column(db.String(100))
-    candidate_profile = db.Column(db.String(100))
-    annual_ctc = db.Column(db.String(100))
-    keywords = db.Column(db.String(100))
-    job_location = db.Column(db.String(100))
-    # number_of_interns = db.Column(db.Integer)
-    MSME_name = db.Column(db.String(100), unique=True)
-    # stipend = db.Column(db.DECIMAL(19, 4))
-    # requirements = db.Column(db.String(100))
-    # time_period = db.Column(db.DECIMAL(19, 4))
-    # status = db.Column(db.Integer)
-    # perks = db.Column(db.String(100))
-    # position = db.Column(db.String(100))
+    internship_id = db.Column(db.String(100))
+    internship_email = db.Column(db.String(100))
+    internship_name = db.Column(db.String(100))
+    internship_company_name = db.Column(db.String(100))
+    valid_till = db.Column(db.DateTime)
+    status = db.Column(db.Integer)
+    student_id = db.Column(db.String(100))
+    student_email = db.Column(db.String(100))
     created_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False)
     updated_dt = db.Column(db.DateTime,default=datetime.utcnow(),nullable=False,onupdate=datetime.utcnow())
     
@@ -47,15 +38,24 @@ class Internship(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_profile_by_MSME_email(cls,email):
-        internship_obj = cls.query.filter_by(email=email).all()
+    def get_count_by_MSME_email(cls,student_email):
+        internship_count = cls.query.filter_by(student_email=student_email).count()
+        return internship_count
+
+    @classmethod
+    def get_already_applied(cls,student_email,internship_id):
+        internship_count = cls.query.filter_by(student_email=student_email, internship_id=internship_id).all()
+        return internship_count
+        
+    @classmethod
+    def get_profile_by_MSME_email(cls,internship_email):
+        internship_obj = cls.query.filter_by(internship_email=internship_email).all()
         mentornships = []
 
         for w in internship_obj:
             mentornships.append(w.json())
         
         return mentornships
-
 
 
     @classmethod

@@ -1,4 +1,4 @@
-from controllers.MSME import create_MSME_profile, get_MSME_profile, create_internship
+from controllers.MSME import create_MSME_profile, get_MSME_profile, create_internship,get_internships_created, get_interns_applied
 from flask import Blueprint, request
 from utils.security import token_required
 
@@ -27,4 +27,12 @@ def create_internship_MSME(user):
 def get_profile(user):
     return get_MSME_profile(user)
 
+@MSME_page.route("/api/MSME/get_internships", methods=["GET"])
+@token_required
+def get_internships(user):
+    return get_internships_created(user)
 
+@MSME_page.route("/api/MSME/get_interns", methods=["GET"])
+@token_required
+def get_interns(user):
+    return get_interns_applied(user)

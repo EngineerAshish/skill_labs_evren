@@ -4,6 +4,9 @@ from flask import jsonify
 from database.models.Student import Student
 from database.models.Mentornship import Mentornship
 from database.models.User import User as User_model
+from database.models.Internship import Internship as Internship_model
+from database.models.intern import Intern as Intern_model
+
 from database.models.Working_professional import Working_professional
 from utils.config import User, abb
 from utils.utils import Response
@@ -103,5 +106,39 @@ def get_all_mentornship(data):
         return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
     
 
+def apply_intership(data):
+    try:
+        student_profile = Student.get_profile_by_email(data["user"].email)
+        student_profile_status= student_profile.json()["profile_completed"]
+        if student_profile_status < 100.00:
+          return Response.send_respose(400, {}, f"please complete your profile {student_profile_status}", 'profile not complete')
+        get_internship = Internship_model.get_profile_by_id(data["internship"]["internship_id"])
+        if not get_internship:
+          return Response.send_respose(400, {}, f"no internship with id ", 'not found')
+        # check already applied 
+        get_applied = Intern_model.get_already_applied(data["user"].email, data["internship"]["internship_id"])
+        if get_applied:
+            return Response.send_respose(400, {}, f"already applied to this internship", 'cant apply more than 1')
+
+        #   check the count of the interships
+
+        Internship_count = Intern_model.get_count_by_MSME_email(data["user"].email)
+        if Internship_count>=5:
+            return Response.send_respose(400, {}, f"apply threshold breached {Internship_count}", 'cant apply more than 5')
+
+        print(f"=====================>>>>>>>>{Internship_count}")
+        post_intern = Intern_model()
+        post_intern.internship_company_name = get_internship.MSME_name
+        post_intern.internship_email = get_internship.email
+        post_intern.internship_id = get_internship.id
+        post_intern.internship_name = get_internship.requirement_title
+        post_intern.valid_till = data["internship"]["valid_till"]
+        post_intern.status = User.Intern.intern_pending
+        post_intern.student_email = data["user"].email
+        post_intern.student_id = data['user'].id
+        post_intern.save_profile()
+        return Response.send_respose(200, {}, 'sucessfull post', '')
         
-        
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')

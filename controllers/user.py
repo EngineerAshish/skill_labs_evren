@@ -109,7 +109,7 @@ def send_otp(data):
 
         # generate 5 digit random number
         generate_otp =  Otp.create_otp()
-        print(f"otp {generate_otp}")
+        print(f"otp------------------------------> {generate_otp}")
 
         # creating otp validate time (5 min = 300 sec)
         validity = Otp.create_validity()
@@ -128,9 +128,10 @@ def send_otp(data):
         msg.body = f'Hello your otp is {generate_otp}'
         mail.send(msg)
 
-        return response_obj.send_respose(200, {"email": user.email}, 'successful otp sent','')
-    except:
-        return response_obj.send_respose(500, {"email": user.email}, 'unSuccessful otp sent','internal server error')
+        return response_obj.send_respose(200, {"email": data["email"]}, 'successful otp sent','')
+    except Exception as e:
+        print(e)
+        return response_obj.send_respose(500, {"email": data["email"]}, 'unSuccessful otp sent','internal server error')
 
 # create and save otp
 def save_otp(user:User):

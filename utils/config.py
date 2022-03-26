@@ -9,6 +9,7 @@ class User:
     class Student:
         intern =1
         other_serices = 2
+
     
     class working_experience:
         mentor_an_intern =1
@@ -17,6 +18,11 @@ class User:
     class MSME:
         map_an_intern = 1
         other_services= 2
+    
+    class Intern:
+        intern_pending = 1
+        intern_accepted = 2
+        intern_denied = 0
 
 class abb:
     class mentornship:
