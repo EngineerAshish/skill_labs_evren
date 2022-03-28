@@ -1,8 +1,10 @@
 from datetime import datetime
 
 from flask import jsonify
-from ..db import db
 
+
+from ..db import db
+from .Mentornship import Mentornship
 
 class Working_professional(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -64,8 +66,14 @@ class Working_professional(db.Model):
         return current_user_json["profile_completed"]
 
     @classmethod
-    def get_working_professionals(cls, page):
+    def get_working_professionals(cls, page, email):
+
         per_page = 10
+        mentors = Mentornship.get_mentornships_by_student_email(email)
+        already_applied_id = []
+        for x in mentors:
+            already_applied_id.append(int(x["working_professional_id"]))
+
         working_professionals = cls.query.paginate(page,per_page,error_out=False).items
         working_professionals_list = [] 
         # working_professionals_json = {}
@@ -74,7 +82,9 @@ class Working_professional(db.Model):
         #     working_professionals_json[count] = c.json()
         #     count = count+1
         for w in working_professionals:
-            working_professionals_list.append(w.json())
+
+            if not int(w.json()["id"]) in already_applied_id: 
+                working_professionals_list.append(w.json())
 
         return working_professionals_list
 

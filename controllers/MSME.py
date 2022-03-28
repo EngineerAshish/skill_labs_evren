@@ -1,9 +1,10 @@
+from sys import intern
 from webbrowser import get
 from utils.config import User
 from database.models.MSME import MSME
 from database.models.Internship import Internship
 from database.models.intern import Intern
-
+from utils import config
 from utils.utils import Response
 
 def create_MSME_profile(data):
@@ -89,4 +90,23 @@ def get_interns_applied(user):
         return Response.send_respose(200, get_interns, 'profile', '')
     except Exception as e:
         print(e)
-        return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')   
+        return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')
+
+
+def react_internship(data):
+    try:
+        
+        get_internship = Intern.get_profile_by_id(data["internship"]["intern_id"])
+        if not get_internship:
+            return Response.send_respose(404, {}, 'invalid intern id', 'not found')
+        if get_internship.internship_email != data["user"].email:
+            return Response.send_respose(404, {}, 'Incorrect MSME to react', 'not found')
+
+        get_internship.status = config.User.Intern.intern_accepted if data["internship"]["status"]=="accept" else config.User.Intern.intern_denied
+        get_internship.save_profile()
+        return Response.send_respose(200, {}, f"student was {data['internship']['status']}", '')
+
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'something went wrong', 'Internal server error')
+ 

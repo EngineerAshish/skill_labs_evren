@@ -56,10 +56,10 @@ def get_Student_profile(user):
         print(e)
         return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
 
-def get_mentors(page=1):
+def get_mentors(user,page=1):
     try:
         print(f"page is {page}")
-        working_professionals = Working_professional.get_working_professionals(int(page))
+        working_professionals = Working_professional.get_working_professionals(int(page),user.email)
         return Response.send_respose(200, working_professionals, '', '')
     except Exception as e:
         print(e)

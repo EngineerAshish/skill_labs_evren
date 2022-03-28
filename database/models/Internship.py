@@ -3,8 +3,8 @@ from ..db import db
 
 class Internship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    MSME_id = db.Column(db.String(100), unique=True)
-    email = db.Column(db.String(100), unique=True)
+    MSME_id = db.Column(db.String(100))
+    email = db.Column(db.String(100))
     requirement_title = db.Column(db.String(100))
     employment_type = db.Column(db.String(100))
     job_description = db.Column(db.String(100))
@@ -13,7 +13,7 @@ class Internship(db.Model):
     keywords = db.Column(db.String(100))
     job_location = db.Column(db.String(100))
     # number_of_interns = db.Column(db.Integer)
-    MSME_name = db.Column(db.String(100), unique=True)
+    MSME_name = db.Column(db.String(100))
     # stipend = db.Column(db.DECIMAL(19, 4))
     # requirements = db.Column(db.String(100))
     # time_period = db.Column(db.DECIMAL(19, 4))

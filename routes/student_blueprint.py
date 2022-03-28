@@ -34,8 +34,9 @@ def apply_interships(user):
 
 
 @student_page.route("/api/student/get_mentors", methods=["GET"])
-def get_mentors_to_mentor():
-    return get_mentors(page = request.args.get("page"))
+@token_required
+def get_mentors_to_mentor(user):
+    return get_mentors(user,page = request.args.get("page"))
 
 @student_page.route("/api/student/get_mentornships", methods=["GET"])
 @token_required
