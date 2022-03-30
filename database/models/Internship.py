@@ -72,3 +72,19 @@ class Internship(db.Model):
         current_user = cls.get_profile_by_email(email)
         current_user_json = current_user.json()
         return current_user_json["profile_completed"]
+
+    @classmethod
+    def get_student_insternship(cls,intrested_areas, page):
+        per_page = 10
+        all_internships = cls.query.paginate(page,per_page,error_out=False).items
+        selected_internships = []
+        temp_intrested_areas_list = intrested_areas.split(",")
+        print(temp_intrested_areas_list)
+        for x in all_internships:
+            temp_keywords = x.keywords.split(",")
+            print(temp_keywords)
+            res = len(set(temp_intrested_areas_list) & set(temp_keywords)) / float(len(set(temp_intrested_areas_list) | set(temp_keywords))) * 100
+            if(res>0):
+                selected_internships.append(x.json())
+        return selected_internships
+        

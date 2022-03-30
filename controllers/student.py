@@ -142,3 +142,15 @@ def apply_intership(data):
     except Exception as e:
         print(e)
         return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
+
+def recommend_internship(**data):
+    try:
+        student = Student.get_profile_by_email(data["user"].email)
+        get_insternships = Internship_model.get_student_insternship(student.intrested_areas, data["page"])
+        return Response.send_respose(200, get_insternships, 'sucessfull post', '')
+        
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
+
+    

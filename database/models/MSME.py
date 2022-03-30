@@ -6,8 +6,8 @@ from ..db import db
 
 class MSME(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, unique=True)
-    email = db.Column(db.String(100), nullable=False, unique=True)
+    user_id = db.Column(db.Integer)
+    email = db.Column(db.String(100), nullable=False)
     type = db.Column(db.Integer, nullable=False)
     business_category = db.Column(db.String(100))
     business_type= db.Column(db.String(100))

@@ -1,4 +1,4 @@
-from controllers.student import create_student_profile, get_Student_profile, get_mentors, add_mentor, get_all_mentornship,apply_intership
+from controllers.student import create_student_profile, get_Student_profile, get_mentors, add_mentor, get_all_mentornship,apply_intership, recommend_internship
 from flask import Blueprint, request
 from utils.security import token_required
 
@@ -42,3 +42,8 @@ def get_mentors_to_mentor(user):
 @token_required
 def get_mentornships(user):
     return get_all_mentornship(user)
+
+@student_page.route("/api/student/recommend_internship", methods=["GET"])
+@token_required
+def get_internship_recommendations(user):
+    return recommend_internship(user = user, page = int(request.args.get("page")))
