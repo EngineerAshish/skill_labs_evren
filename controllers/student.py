@@ -132,7 +132,7 @@ def apply_intership(data):
         post_intern.internship_email = get_internship.email
         post_intern.internship_id = get_internship.id
         post_intern.internship_name = get_internship.requirement_title
-        post_intern.valid_till = data["internship"]["valid_till"]
+        post_intern.valid_till = "2022-03-30 04:30:52"
         post_intern.status = User.Intern.intern_pending
         post_intern.student_email = data["user"].email
         post_intern.student_id = data['user'].id
@@ -153,4 +153,18 @@ def recommend_internship(**data):
         print(e)
         return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
 
-    
+def get_all_applied_internship(user):
+    try:
+        get_internships = Internship_model.get_all_applied(user.id)
+        return Response.send_respose(200, get_internships, 'sucessfull get', '')
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')
+
+def get_all_not_applied_internship(user):
+    try:
+        get_internships = Internship_model.get_all_not_applied(user.id)
+        return Response.send_respose(200, get_internships, 'sucessfull get', '')
+    except Exception as e:
+        print(e)
+        return Response.send_respose(500, {}, 'unsuccessful post', 'Internal server error')

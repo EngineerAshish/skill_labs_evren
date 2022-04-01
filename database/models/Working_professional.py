@@ -4,6 +4,7 @@ from flask import jsonify
 
 
 from ..db import db
+from .User import User
 from .Mentornship import Mentornship
 
 class Working_professional(db.Model):
@@ -15,6 +16,7 @@ class Working_professional(db.Model):
     user_id = db.Column(db.Integer) 
     email = db.Column(db.String(100), unique=True)
     UG_degree = db.Column(db.String(100))
+    name = db.Column(db.String(100))
     PG_degree = db.Column(db.String(100))
     current_company = db.Column(db.String(100))
     intrested_area = db.Column(db.String(100))
@@ -74,6 +76,7 @@ class Working_professional(db.Model):
         for x in mentors:
             already_applied_id.append(int(x["working_professional_id"]))
 
+   
         working_professionals = cls.query.paginate(page,per_page,error_out=False).items
         working_professionals_list = [] 
         # working_professionals_json = {}
@@ -83,7 +86,8 @@ class Working_professional(db.Model):
         #     count = count+1
         for w in working_professionals:
 
-            if not int(w.json()["id"]) in already_applied_id: 
+            if not int(w.json()["id"]) in already_applied_id:
+                
                 working_professionals_list.append(w.json())
 
         return working_professionals_list

@@ -73,6 +73,7 @@ def post_user(data):
             post_working_experience.designation = data["designation"]
             post_working_experience.location = data["location"]
             post_working_experience.current_company = data["current_company"]
+            post_working_experience.name = data["name"]
             post_working_experience.save_user()
 
 # check if the user is a MSME

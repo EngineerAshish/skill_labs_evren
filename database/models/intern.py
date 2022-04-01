@@ -1,5 +1,6 @@
 from datetime import datetime
 from ..db import db
+# from .Internship import Internship
 
 class Intern(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -72,3 +73,15 @@ class Intern(db.Model):
         current_user = cls.get_profile_by_email(email)
         current_user_json = current_user.json()
         return current_user_json["profile_completed"]
+
+
+# get all applied internships
+    @classmethod
+    def get_all_applied(cls,user_id):
+        internship_obj = cls.query.outerjoin(Internship, Internship.id ==cls.internship_id ).all()
+        mentornships = []
+
+        for w in internship_obj:
+            mentornships.append(w.json())
+        
+        return mentornships

@@ -1,5 +1,9 @@
 from datetime import datetime
+
+
+from .intern import Intern as Intern_model
 from ..db import db
+from utils.config import User as useer_var
 
 class Internship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -73,6 +77,7 @@ class Internship(db.Model):
         current_user_json = current_user.json()
         return current_user_json["profile_completed"]
 
+# recommend internships
     @classmethod
     def get_student_insternship(cls,intrested_areas, page):
         per_page = 10
@@ -87,4 +92,30 @@ class Internship(db.Model):
             if(res>0):
                 selected_internships.append(x.json())
         return selected_internships
+
+# get all applied internships
+    @classmethod
+    def get_all_applied(cls,student_id):
+        internship_obj = cls.query.outerjoin(Intern_model, Intern_model.internship_id ==cls.id ).filter_by(student_id=student_id).all()
+        mentornships = []
+
+        for w in internship_obj:
+            mentornships.append(w.json())
+        
+        return mentornships
+
+# get all applied internships
+    @classmethod
+    def get_all_not_applied(cls,student_id):
+        temp_mentornships = cls.get_all_applied(student_id)
+
+        
+        internship_obj = cls.query.outerjoin(Intern_model, Intern_model.internship_id ==cls.id ).all()
+        mentornships = []
+
+        for w in internship_obj:
+            mentornships.append(w.json())
+        
+        li_dif = [i for i in temp_mentornships + mentornships if i not in temp_mentornships or i not in mentornships]
+        return li_dif
         
