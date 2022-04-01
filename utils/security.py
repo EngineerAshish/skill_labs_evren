@@ -127,7 +127,7 @@ def MSME_token_required(f):
                 }), 401
 
                 # check if the user is student or not 
-                if current_user.category!= User_var.MSME:
+                if current_user.category!= User_var.MSME_user:
                     return jsonify({
                     'message' : 'User is not a MSME!!',
                 }), 401
